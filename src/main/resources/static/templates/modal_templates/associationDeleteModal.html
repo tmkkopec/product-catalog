@@ -1,0 +1,33 @@
+<div class="modal-dialog modal-lg" role="document" ng-controller="associationDeleteController">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button class="close" aria-label="Close" data-dismiss="modal" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="associationDeleteModalLabel">Delete association</h4>
+        </div>
+        <div class="modal-body">
+        	<span class="modal-question">Which association should be deleted?</span><br/>
+             <div class="form-group">
+        <div class="radio" ng-repeat="association in associations">
+            <label ng-if="association.className.baseVal=='master'">
+                <input type="radio" name="cat" value="association" ng-value="association" ng-model="formData.deleted">
+                Master-slave between {{association.__data__.source.name}} and {{association.__data__.target.name}}
+            </label>
+            <label ng-if="association.className.baseVal=='requirement'">
+                <input type="radio" name="cat" value="association" ng-value="association" ng-model="formData.deleted">
+                Requirement between {{association.__data__.source.name}} and {{association.__data__.target.name}}
+            </label>
+            <label ng-if="association.className.baseVal=='exclusion'">
+                <input type="radio" name="cat" value="association" ng-value="association" ng-model="formData.deleted">
+                Exclusion between {{association.__data__.source.name}} and {{association.__data__.target.name}}
+            </label>
+        </div>
+    </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" ng-click="deleteAssociation()" data-dismiss="modal">Delete</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>

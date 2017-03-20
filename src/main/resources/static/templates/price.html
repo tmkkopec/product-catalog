@@ -1,0 +1,36 @@
+<td class="editableComboBox" tmp="{{::formInfo['PriceMode']}}">
+    <select class="form-control input-sm">
+        <option>{{::formInfo['PriceMode']}}</option>
+        <option>unknown1</option>
+        <option>unknown2</option>
+    </select>
+</td>
+<td class="editableComboBox" tmp="{{::formInfo['PriceType']}}">
+    <select class="form-control input-sm">
+        <option>{{::formInfo['PriceType']}}</option>
+        <option>unknown1</option>
+        <option>unknown2</option>
+    </select>
+</td>
+<td class="editableArea" tmp="{{::formInfo['PriceTypeDescription']}}">
+    <input class="form-control" value="{{::formInfo['PriceTypeDescription']}}">
+</td>
+<td class="editableArea" tmp="{{::formInfo['PriceDescription']}}">
+    <input class="form-control" value="{{::formInfo['PriceDescription']}}">
+</td>
+<td class="editableArea" tmp="{{::formInfo['Tax']}}">
+    <input class="form-control" value="{{::formInfo['Tax']}}">
+</td>
+<td class="editableComboBox" tmp="{{::formInfo['Currency']}}">
+    <select class="form-control input-sm">
+        <option>{{::formInfo['Currency']}}</option>
+        <option>unknown1</option>
+        <option>unknown2</option>
+    </select>
+</td>
+<td class="editableArea" tmp="{{::formInfo['Amount']}}">
+    <input class="form-control" value="{{::formInfo['Amount']}}">
+</td>
+<td>
+	<span class="glyphicon glyphicon-minus" data-toggle="modal" data-target="#deleteConfirmationModal" set-to-be-deleted></span>
+</td>

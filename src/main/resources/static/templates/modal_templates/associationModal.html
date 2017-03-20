@@ -1,0 +1,43 @@
+<div class="modal-dialog modal-lg" role="document" ng-controller="associationController">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button class="close" aria-label="Close" data-dismiss="modal" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="associationModalLabel">Add association</h4>
+        </div>
+        <div class="modal-body">
+<span class="modal-question">Which of the following should be the second entity of a currently created association?</span><br/>
+             <div class="form-group">
+        <div class="radio" ng-repeat="node in appendableNodesCategories">
+            <label>
+                <input type="radio" name="secondEnt" value="node" ng-value="node" ng-model="formData.secondEntity">
+                {{node.name}}
+            </label>
+        </div>
+    </div>
+<span class="modal-question">What should be the type of a currently created association?</span><br/>
+	<div class="form-group">
+        <div class="radio">
+            <label>
+                <input type="radio" name="assocType" value="M" ng-model="formData.associationType">Master - slave
+            </label>
+        </div>
+        <div class="radio">
+            <label>
+                <input type="radio" name="assocType" value="R" ng-model="formData.associationType">Requirement
+            </label>
+        </div>
+        <div class="radio">
+            <label>
+                <input type="radio" name="assocType" value="E" ng-model="formData.associationType">Exclusion
+            </label>
+        </div>
+    </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" ng-click="saveData()" data-dismiss="modal">Add</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>

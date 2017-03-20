@@ -1,0 +1,26 @@
+<ul id="categoryMenu" class="dropdown-menu" role="menu" style="display:none" >
+    <li><a tabindex="-1" data-target="#categoryModal" data-toggle="modal">Add category</a></li>
+    <li><a tabindex="-1" data-target="#typeModal" data-toggle="modal">Add type</a></li>
+    <li><a ng-click="addAssociation()" tabindex="-1" data-target="#associationModal" data-toggle="modal">Add association</a></li>
+    <li><a ng-click="addParentCategory()" tabindex="-1" data-target="#parentModal" data-toggle="modal">Append category as a parent</a></li>
+    <li class="divider"></li>
+    <li><a tabindex="-1" data-target="#nodeDeleteModal" data-toggle="modal">Delete category</a></li>
+    <li><a ng-click="deleteAssociation()" tabindex="-1" data-target="#associationDeleteModal" data-toggle="modal">Delete association</a></li>
+</ul>
+<ul id="rootMenu" class="dropdown-menu" role="menu" style="display:none" >
+    <li><a tabindex="-1" data-target="#categoryModal" data-toggle="modal">Add category</a></li>
+    <li><a tabindex="-1" data-target="#typeModal" data-toggle="modal">Add type</a></li>
+</ul>
+<ul id="typeMenu" class="dropdown-menu" role="menu" style="display:none" >
+    <li><a ng-click="addAssociation()" tabindex="-1" data-target="#associationModal" data-toggle="modal">Add association</a></li>
+    <li><a ng-click="addParentCategory()" tabindex="-1" data-target="#parentModal" data-toggle="modal">Add parent category</a></li>
+    <li class="divider"></li>
+    <li><a tabindex="-1" data-target="#nodeDeleteModal" data-toggle="modal">Delete type</a></li>
+    <li><a ng-click="deleteAssociation()" tabindex="-1" data-target="#associationDeleteModal" data-toggle="modal">Delete association</a></li>
+</ul>
+<ul id="bundleMenu" class="dropdown-menu" role="menu" style="display:none" >
+    <li><a tabindex="-1" data-target="#bundleDeleteModal" data-toggle="modal">Delete bundle</a></li>
+</ul>
+<ul id="offeringMenu" class="dropdown-menu" role="menu" style="display:none" >
+    <li><a tabindex="-1" data-target="#offeringDeleteModal" data-toggle="modal">Delete offering</a></li>
+</ul>

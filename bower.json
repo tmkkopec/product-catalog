@@ -1,0 +1,16 @@
+{
+  "name": "product-catalog",
+  "version": "0.0.1",
+  "dependencies": {
+    "bootstrap": "3.3.6",
+    "jquery": "2.2.4",
+    "moment": "2.14.1",
+    "jquery.floatThead": "1.4.2",
+    "eonasdan-bootstrap-datetimepicker": "4.17.37",
+    "angular": "1.5.8",
+    "d3": "3.5.17",
+    "ng-file-upload": "*",
+    "angular-file-saver": "*"
+  },
+  "private": true
+}

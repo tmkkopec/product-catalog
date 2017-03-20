@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Product Catalog Management Studio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="bower_components/d3/d3.min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/jquery.floatThead/dist/jquery.floatThead.min.js"></script>
+    <script src="bower_components/moment/min/moment.min.js"></script>
+    <script src="bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="bower_components/ng-file-upload/ng-file-upload.min.js"></script>
+    <script src="bower_components/angular-file-saver/dist/angular-file-saver.bundle.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
+    <link rel="icon" type="image/icon" href="images/favicon.ico">
+</head>
+<body ng-app="main" ng-controller="viewController">
+<nav id="navbar" class="navbar navbar-inverse">
+    <div id="navDiv" class="container-fluid" ng-controller="navController">
+        <div class="navbar-header">
+            <a class="navbar-brand">Product Catalog</a>
+        </div>
+        <ul id="navbar-list" class="nav navbar-nav">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button"> File <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a ngf-select="upload($file)">Import</a>
+                    </li>
+                    <li><a href="" data-toggle="modal" data-target="#exportModal">Export</a></li>
+                </ul>
+            </li>
+            <li class="dropdown" ng-if="isXmlLoaded">
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button"> View <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a ng-click="setCategoryView()">Category View</a></li>
+                    <li><a ng-click="setOverview()">Offers View</a></li>
+                    <li><a ng-click="setProductOfferingsView()">Product Offerings View</a></li>
+                </ul>
+            </li>
+            <li ng-show="viewCount=='offersOverview' || viewCount=='offerings'" ng-if="isXmlLoaded" id="offersDropdown" class="dropdown"
+                ng-include="'templates/offersDropdown.html'"></li>
+        </ul>
+        <button ng-if="shownPanel=='editButton'" id="editButton" type="button" class="btn btn-default pull-right" edit-mode>Edit</button>
+		<div ng-if="shownPanel=='editPanel'" id="editPanel" class="btn-group pull-right">
+            <button type="button" class="btn btn-default edit-mode-button" add-price data-toggle="modal" data-target="#priceModal">Add Price</button>
+            <button type="button" class="btn btn-default edit-mode-button" data-toggle="modal" data-target="#transitionModal">Add Transition</button>
+            <button type="button" class="btn btn-default edit-mode-button" save-changes>Save Changes</button>
+            <button type="button" class="btn btn-default edit-mode-button" discard-changes>Discard Changes</button>
+    	</div>
+    	<div ng-if="shownPanel=='categoryEditPanel'" id="categoryEditPanel" class="btn-group pull-right">
+            <button type="button" class="btn btn-default" save-changes>Save Changes</button>
+            <button type="button" class="btn btn-default" discard-changes>Discard Changes</button>
+		</div>
+        <div ng-if="shownPanel=='offeringEditPanel'" id="offeringsEditPanel" class="btn-group pull-right">
+            <button type="button" class="btn btn-default" data-target="#addBundleModal" data-toggle="modal">Add bundle</button>
+            <button type="button" class="btn btn-default" data-target="#addOfferingModal" data-toggle="modal">Add offering</button>
+            <button type="button" class="btn btn-default" save-changes>Save Changes</button>
+            <button type="button" class="btn btn-default" discard-changes>Discard Changes</button>
+        </div>
+	</div>
+</nav>
+<div ng-show="viewCount=='offersOverview'" ng-if="isXmlLoaded" class="container-fluid" ng-include="'templates/offersOverview.html'"></div>
+<div ng-show="viewCount=='category'" ng-if="isXmlLoaded" class="container-fluid" ng-include="'templates/categories.html'"></div>
+<div ng-show="viewCount=='offerings'" ng-if="isXmlLoaded" class="container-fluid" ng-include="'templates/offerings.html'"></div>
+<div class="contextMenus" ng-include="'templates/contextMenus.html'"></div>
+<div id="attentionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="attentionModalLabel"
+     aria-hidden="true" ng-include="'templates/modal_templates/attentionModal.html'"></div>
+<div id="deleteConfirmationModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+     aria-hidden="true" ng-include="'templates/modal_templates/deleteConfirmationModal.html'"></div>
+<div id="priceModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="priceModalLabel"
+     aria-hidden="true" ng-include="'templates/modal_templates/priceModal.html'"></div>
+<div id="transitionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="transitionModalLabel"
+     aria-hidden="true" ng-include="'templates/modal_templates/transitionModal.html'"></div>
+<div id="categoryModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel"
+     aria-hidden="true" ng-include="'templates/modal_templates/categoryModal.html'"></div>
+<div id="typeModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="typeModalLabel"
+	 aria-hidden="true" ng-include="'templates/modal_templates/typeModal.html'"></div>
+<div id="associationModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="associationModalLabel"
+     aria-hidden="true" ng-include="'templates/modal_templates/associationModal.html'"></div>
+<div id="parentModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="parentModalLabel"
+     aria-hidden="true" ng-include="'templates/modal_templates/parentModal.html'"></div>
+<div id="nodeDeleteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="nodeDeleteModalLabel"
+	 aria-hidden="true" ng-include="'templates/modal_templates/nodeDeleteModal.html'"></div>
+<div id="addBundleModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addBundleModalLabel"
+	 aria-hidden="true" ng-include="'templates/modal_templates/addBundleModal.html'"></div>
+<div id="addOfferingModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addOfferingModalLabel"
+	 aria-hidden="true" ng-include="'templates/modal_templates/addOfferingModal.html'"></div>
+<div id="offeringDeleteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="offeringDeleteModalLabel"
+	 aria-hidden="true" ng-include="'templates/modal_templates/offeringDeleteModal.html'"></div>
+<div id="bundleDeleteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="bundleDeleteModalLabel"
+     aria-hidden="true" ng-include="'templates/modal_templates/bundleDeleteModal.html'"></div>
+<div id="associationDeleteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="associationDeleteModalLabel"
+	 aria-hidden="true" ng-include="'templates/modal_templates/associationDeleteModal.html'"></div>
+<div id="exportModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exportModalLabel"
+     aria-hidden="true"
+     ng-controller="exportController">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" aria-label="Close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="exportModalLabel">Export to file</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="control-label col-xs-3">Name of file:</label>
+                        <div class="col-xs-9">
+                            <input class="form-control" ng-model="formInfo['fileName']" placeholder="Filename">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="exportData()" data-dismiss="modal">Export
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="js/controllers.js"></script>
+<script type="text/javascript" src="js/controllers/graphController.js"></script>
+<script type="text/javascript" src="js/controllers/offeringDeleteController.js"></script>
+<script type="text/javascript" src="js/controllers/nodeDeleteController.js"></script>
+<script type="text/javascript" src="js/controllers/categoryController.js"></script>
+<script type="text/javascript" src="js/controllers/bundleDeleteController.js"></script>
+<script type="text/javascript" src="js/controllers/associationController.js"></script>
+<script type="text/javascript" src="js/controllers/associationDeleteController.js"></script>
+<script type="text/javascript" src="js/controllers/addOfferingController.js"></script>
+<script type="text/javascript" src="js/controllers/addBundleController.js"></script>
+<script type="text/javascript" src="js/controllers/parentController.js"></script>
+<script type="text/javascript" src="js/controllers/priceController.js"></script>
+<script type="text/javascript" src="js/controllers/transitionController.js"></script>
+<script type="text/javascript" src="js/controllers/typeController.js"></script>
+<script type="text/javascript" src="js/directives.js"></script>
+<script type="text/javascript" src="js/services.js"></script>
+<script type="text/javascript" src="js/scripts.js"></script>
+</body>
+</html>

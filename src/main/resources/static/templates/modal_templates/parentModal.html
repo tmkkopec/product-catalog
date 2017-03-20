@@ -1,0 +1,25 @@
+<div class="modal-dialog modal-lg" role="document" ng-controller="parentController">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button class="close" aria-label="Close" data-dismiss="modal" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="parentModalLabel">Add parent category</h4>
+        </div>
+        <div class="modal-body">
+<span class="modal-question">Which of the following categories should be a parent entity of a selected type?</span><br/>
+            <div class="form-group">
+       <div class="radio" ng-repeat="node in appendableNodesCategories">
+           <label>
+               <input type="radio" name="parent" value="node" ng-value="node" ng-model="formData.par">
+               {{node.name}}
+           </label>
+       </div>
+   </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" ng-click="saveData()" data-dismiss="modal">Add</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>

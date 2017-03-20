@@ -1,0 +1,295 @@
+<div class="row">
+    <div class="col-md-12">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <div><a data-toggle="tab"
+                        data-target="#overview" tmp="#overview" remove-edit>Offer Overview</a></div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <div class="tab-content" ng-controller="tabsController">
+        <div id="overview" class="tab-pane fade in active">
+            <div class="col-md-2 col-sm-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Product Offerings
+                    </div>
+                    <div class="panel-body offers-body">
+                        <div class="list-group" ng-repeat="offering in offerData.offer.products">
+                            <div ng-class="offering.products.length>0 ? 'list-group-item bundle':'list-group-item'"
+                                 ng-mouseenter="visible=true"
+                                 ng-mouseleave="visible=false">
+                                <a ng-click="scrollOfferings(offering.productOfferingId)">
+                                    {{offering.productOfferingCode}}
+                                </a>
+                                <a ng-click="setProductId(offering.productOfferingId)">
+                                    <span class="glyphicon glyphicon-pencil" ng-show="visible"></span>
+                                </a>
+                                <div ng-show="showedProduct===offering.productOfferingId"
+                                     class="list-group-item bundled-offerings"
+                                     ng-repeat="bundledOffering in offering.products"
+                                     ng-mouseenter="visibleBundleItem=true"
+                                     ng-mouseleave="visibleBundleItem=false">
+                                    <a ng-href="#{{bundledOffering.generals.productOfferingId}}"
+                                       data-toggle="collapse"
+                                       data-target="#{{bundledOffering.generals.productOfferingId}}">
+                                        {{bundledOffering.productOfferingCode}}
+                                    </a>
+                                    <a ng-click="setBundledProductId(bundledOffering.productOfferingId)">
+                                        <span class="glyphicon glyphicon-pencil" ng-show="visibleBundleItem"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-10 col-sm-8">
+                <div class="panel panel-default main-panel">
+                    <div class="panel-body col-md-12">
+                        <div class="col-md-12" ng-repeat="offering in offerData.offer.products">
+                            <div class="row marginless">
+	                            <div id="{{offering.generals.productOfferingId}}"
+	                                 name="{{offering.generals.productOfferingId}}"
+	                                 ng-class="$index%2==0 ? 'main-view-primary panel panel-primary' : 'main-view-green panel panel-green'"
+	                                 ng-init="count=$index">
+	                                <div class="panel-body table-responsive general">
+	                                    <div class="row">
+	                                        <div class="text-center col-md-4">{{offering.generals.productType}}
+	                                        </div>
+	                                        <div class="text-center col-md-4 offering-code">
+	                                            {{offering.generals.productOfferingCode}}
+	                                        </div>
+	                                        <div class="text-center col-md-4"><span
+	                                                ng-repeat="category in offering.generals.productCategory">{{($index==0 ? "" : ", ") + category}}</span>
+	                                        </div>
+	                                    </div>
+	                                    <div class="row">
+	                                        <div class="text-center col-md-4">{{'Variant
+	                                            '+offering.generals.productOfferingVariant}}
+	                                        </div>
+	                                        <div class="text-center col-md-4">{{'Version
+	                                            '+offering.generals.productOfferingVersion}}
+	                                        </div>
+	                                        <div class="text-center col-md-4">{{offering.generals.validFrom}}</div>
+	                                    </div>
+	                                </div>
+	                                <div ng-show="offering.transitions.length>0"
+	                                     class="panel-body table-responsive">
+	                                    <table class="table">
+	                                        <thead>
+	                                        <tr>
+	                                            <th>Transition Type</th>
+	                                            <th>Price Mode</th>
+	                                            <th>Price Type</th>
+	                                            <th>Price Type Description</th>
+	                                            <th>Price Description</th>
+	                                            <th>Tax</th>
+	                                            <th>Currency</th>
+	                                            <th>Amount</th>
+	                                        </tr>
+	                                        </thead>
+	                                        <tbody>
+	                                        <tr ng-init="count=$index"
+	                                            ng-repeat-start="transition in offering.transitions">
+	                                            <td class="text-center"
+	                                                rowspan="{{(transition.prices.length==0)?1:transition.prices.length}}">
+	                                                {{transition.transitionType}}
+	                                            </td>
+	                                            <td>{{transition.prices[0].priceMode}}</td>
+	                                            <td>{{transition.prices[0].priceType}}</td>
+	                                            <td>{{transition.prices[0].priceTypeDescription}}</td>
+	                                            <td>{{transition.prices[0].priceDescription}}</td>
+	                                            <td>{{transition.prices[0].tax}}</td>
+	                                            <td>{{transition.prices[0].currency}}</td>
+	                                            <td>{{transition.prices[0].amount}}</td>
+	                                        </tr>
+	                                        <tr ng-repeat="price in transition.prices"
+	                                            ng-if="$index > 0">
+	                                            <td>{{price.priceMode}}</td>
+	                                            <td>{{price.priceType}}</td>
+	                                            <td>{{price.priceTypeDescription}}</td>
+	                                            <td>{{price.priceDescription}}</td>
+	                                            <td>{{price.tax}}</td>
+	                                            <td>{{price.currency}}</td>
+	                                            <td>{{price.amount}}</td>
+	                                        </tr>
+	                                        <tr ng-repeat-end></tr>
+	                                        </tbody>
+	                                    </table>
+	                                </div>
+	                                <div ng-if="offering.prices.length>0"
+	                                     class="panel-body table-responsive">
+	                                    <table class="table">
+	                                        <thead>
+	                                        <tr>
+	                                            <th>Price Mode</th>
+	                                            <th>Price Type</th>
+	                                            <th>Price Type Description</th>
+	                                            <th>Price Description</th>
+	                                            <th>Tax</th>
+	                                            <th>Currency</th>
+	                                            <th>Amount
+	                                                <button type="button" class="sort">
+	                                                    <span class="glyphicon glyphicon-sort"></span>
+	                                                </button>
+	                                            </th>
+	                                        </tr>
+	                                        </thead>
+	                                        <tbody>
+	                                        <tr ng-repeat="price in offering.prices">
+	                                            <td>{{price.priceMode}}</td>
+	                                            <td>{{price.priceType}}</td>
+	                                            <td>{{price.priceTypeDescription}}</td>
+	                                            <td>{{price.priceDescription}}</td>
+	                                            <td>{{price.tax}}</td>
+	                                            <td>{{price.currency}}</td>
+	                                            <td>{{price.amount}}</td>
+	                                        </tr>
+	                                        </tbody>
+	                                    </table>
+	                                </div>
+	                                <div ng-if="!offering.prices.length>0" class="noprices row">
+	                                    <div class="col-md-12">
+	                                        <div class="col-md-12">There are no prices in
+	                                            database.
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                                <div ng-if="offering.products.length>0" class="row">
+	                                    <div class="col-md-12">
+	                                        <div class="bundle-title-bar col-md-12">
+	                                            Bundled Offerings
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                                <div class="row">
+	                                    <div class="col-md-12">
+	                                        <div class="col-md-12">
+	                                            <button data-toggle="collapse"
+	                                                    data-target="#{{bundledOffering.generals.productOfferingId}}"
+	                                                    ng-repeat="bundledOffering in offering.products"
+	                                                    type="button" class="btn btn-default bundle-button">
+	                                                {{bundledOffering.generals.productType}}
+	                                            </button>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                                <div class="panel"
+	                                     ng-class="count%2==0 ? 'main-view-primary panel' : 'main-view-green panels'">
+	                                    <div id="{{bundledOffering.generals.productOfferingId}}"
+	                                         name="{{bundledOffering.generals.productOfferingId}}"
+	                                         ng-repeat="bundledOffering in offering.products"
+	                                         class="collapse panel-body bundle-body">
+	                                        <div class="panel-body table-responsive general">
+	                                            <div class="row">
+	                                                <div class="text-center col-md-4">
+	                                                    {{bundledOffering.generals.productType}}
+	                                                </div>
+	                                                <div class="text-center col-md-4 offering-code">
+	                                                    {{bundledOffering.generals.productOfferingCode}}
+	                                                </div>
+	                                                <div class="text-center col-md-4"><span
+	                                                        ng-repeat="category in offering.generals.productCategory">{{($index==0 ? "" : ", ") + category}}</span>
+	                                                </div>
+	                                            </div>
+	                                            <div class="row">
+	                                                <div class="text-center col-md-4">{{'Variant
+	                                                    '+bundledOffering.generals.productOfferingVariant}}
+	                                                </div>
+	                                                <div class="text-center col-md-4">{{'Version
+	                                                    '+bundledOffering.generals.productOfferingVersion}}
+	                                                </div>
+	                                                <div class="text-center col-md-4">
+	                                                    {{bundledOffering.generals.validFrom}}
+	                                                </div>
+	                                            </div>
+	                                        </div>
+	                                        <div ng-show="offering.transitions.length>0"
+	                                             class="panel-body table-responsive">
+	                                            <table class="table">
+	                                                <thead>
+	                                                <tr>
+	                                                    <th>Transition Type</th>
+	                                                    <th>Price Mode</th>
+	                                                    <th>Price Type</th>
+	                                                    <th>Price Type Description</th>
+	                                                    <th>Price Description</th>
+	                                                    <th>Tax</th>
+	                                                    <th>Currency</th>
+	                                                    <th>Amount</th>
+	                                                </tr>
+	                                                </thead>
+	                                                <tbody>
+	                                                <tr ng-init="count=$index"
+	                                                    ng-repeat-start="transition in bundledOffering.transitions">
+	                                                    <td class="text-center"
+	                                                        rowspan="{{(transition.prices.length==0)?1:transition.prices.length}}">
+	                                                        {{transition.transitionType}}
+	                                                    </td>
+	                                                    <td>{{transition.prices[0].priceMode}}</td>
+	                                                    <td>{{transition.prices[0].priceType}}</td>
+	                                                    <td>{{transition.prices[0].priceTypeDescription}}</td>
+	                                                    <td>{{transition.prices[0].priceDescription}}</td>
+	                                                    <td>{{transition.prices[0].tax}}</td>
+	                                                    <td>{{transition.prices[0].currency}}</td>
+	                                                    <td>{{transition.prices[0].amount}}</td>
+	                                                </tr>
+	                                                <tr ng-repeat="price in transition.prices"
+	                                                    ng-if="$index > 0">
+	                                                    <td>{{price.priceMode}}</td>
+	                                                    <td>{{price.priceType}}</td>
+	                                                    <td>{{price.priceTypeDescription}}</td>
+	                                                    <td>{{price.priceDescription}}</td>
+	                                                    <td>{{price.tax}}</td>
+	                                                    <td>{{price.currency}}</td>
+	                                                    <td>{{price.amount}}</td>
+	                                                </tr>
+	                                                <tr ng-repeat-end></tr>
+	                                                </tbody>
+	                                            </table>
+	                                        </div>
+	                                        <div ng-show="offering.prices.length>0"
+	                                             class="panel-body table-responsive">
+	                                            <table class="table">
+	                                                <thead>
+	                                                <tr>
+	                                                    <th>Price Mode</th>
+	                                                    <th>Price Type</th>
+	                                                    <th>Price Type Description</th>
+	                                                    <th>Price Description</th>
+	                                                    <th>Tax</th>
+	                                                    <th>Currency</th>
+	                                                    <th>Amount
+	                                                        <button type="button" class="sort">
+	                                                            <span class="glyphicon glyphicon-sort"></span>
+	                                                        </button>
+	                                                    </th>
+	                                                </tr>
+	                                                </thead>
+	                                                <tbody>
+	                                                <tr ng-repeat="price in bundledOffering.prices">
+	                                                    <td>{{price.priceMode}}</td>
+	                                                    <td>{{price.priceType}}</td>
+	                                                    <td>{{price.priceTypeDescription}}</td>
+	                                                    <td>{{price.priceDescription}}</td>
+	                                                    <td>{{price.tax}}</td>
+	                                                    <td>{{price.currency}}</td>
+	                                                    <td>{{price.amount}}</td>
+	                                                </tr>
+	                                                </tbody>
+	                                            </table>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

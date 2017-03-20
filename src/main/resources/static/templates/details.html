@@ -1,0 +1,231 @@
+<div class="col-md-12">
+    <div class="col-md-4 col-sm-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        General
+                    </div>
+                    <div class="panel-body general-body table-responsive">
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <strong>Product Offering Code</strong>
+                                </td>
+                                <td class="editableArea">{{::productData.product.generals.productOfferingCode}}</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Product Type</strong>
+                                </td>
+                                <td class="editableArea">{{::productData.product.generals.productType}}</td>
+                            </tr>
+                            <tr class="grey-row">
+                                <td rowspan="{{::(productData.product.generals.productCategory.length==0)?1:(productData.product.generals.productCategory.length)}}">
+                                    <strong>Product Category</strong>
+                                </td>
+                                <td class="editableArea">{{::productData.product.generals.productCategory[0]}}</td>
+                            </tr>
+                            <tr class="grey-row" ng-repeat="category in ::productData.product.generals.productCategory"
+                                ng-if="$index > 0">
+                                <td class="editableArea">{{category}}</td>
+                            </tr>
+                            <tr ng-if="::(!productData.product.generals.productCategory.length%2==0)"
+                                ng-repeat-end></tr>
+                            <tr ng-if="::(productData.product.generals.productCategory.length%2==1)"></tr>
+                            <tr>
+                                <td>
+                                    <strong>Product Multiplicity</strong>
+                                </td>
+                                <td class="editableComboBox">{{::productData.product.generals.productMultiplicity}}</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Product Offering Variant</strong>
+                                </td>
+                                <td class="editableArea">{{::productData.product.generals.productOfferingVariant}}</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Product Offering Version</strong>
+                                </td>
+                                <td class="editableArea">{{::productData.product.generals.productOfferingVersion}}</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Valid From</strong>
+                                </td>
+                                <td class="editableDate">{{::productData.product.generals.validFrom}}</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Is Required</strong>
+                                </td>
+                                <td class="editableRadioButton">{{::productData.product.generals.isRequired}}</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Is Product Discount</strong>
+                                </td>
+                                <td class="editableRadioButton">{{::productData.product.generals.isProductDiscount}}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-green">
+                    <div class="panel-heading">
+                        Parameters
+                    </div>
+                    <div class="panel-body parameters-body table-responsive">
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr ng-repeat="parameter in productData.product.parameters">
+                                <td class="editableArea">
+                                    <strong>{{::parameter.parameterName}}</strong>
+                                </td>
+                                <td class="editableArea">{{::parameter.parameterValue}}</td>
+                                <td class="editableComboBox">{{::parameter.parameterType}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="panel panel-yellow">
+                    <div class="panel-heading">
+                        Subscribing Object Types
+                    </div>
+                    <div class="panel-body subscribing-object-types-body table-responsive">
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr ng-repeat="sot in productData.product.subscribingObjectTypes">
+                                <td class="editableComboBox">{{::sot}}
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="panel panel-red">
+                    <div class="panel-heading">
+                        Sales Channels
+                    </div>
+                    <div class="panel-body sales-channels-body table-responsive">
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr ng-repeat="channel in productData.product.salesChannels">
+                                <td class="editableComboBox">{{::channel}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 col-sm-12">
+        <div class="row">
+            <div class="panel panel-purple">
+                <div class="panel-heading">
+                    Transitions
+                </div>
+                <div class="panel-body transitions-body table-responsive">
+                    <table class="table table-bound">
+                        <thead>
+                        <tr>
+                            <th>Transition Type</th>
+                            <th>Price Mode</th>
+                            <th>Price Type</th>
+                            <th>Price Type Description</th>
+                            <th>Price Description</th>
+                            <th>Tax</th>
+                            <th>Currency</th>
+                            <th>Amount</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr ng-class="$index%2==0 ? 'grey-row appendable-row' : 'appendable-row'" data-group="{{::$index}}"
+                            ng-init="count=$index"
+                            ng-repeat-start="transition in productData.product.transitions"
+                            highlight-groups>
+                            <td class="text-center editableComboBox"
+                                rowspan="{{::(transition.prices.length==0)?1:transition.prices.length}}">
+                                {{::transition.transitionType}}
+                            </td>
+                            <td class="editableComboBox">{{::transition.prices[0].priceMode}}</td>
+                            <td class="editableComboBox">{{::transition.prices[0].priceType}}</td>
+                            <td class="editableArea">{{::transition.prices[0].priceTypeDescription}}</td>
+                            <td class="editableArea">{{::transition.prices[0].priceDescription}}</td>
+                            <td class="editableArea">{{::transition.prices[0].tax}}</td>
+                            <td class="editableComboBox">{{::transition.prices[0].currency}}</td>
+                            <td class="editableArea">{{::transition.prices[0].amount}}</td>
+                        </tr>
+                        <tr ng-class="count%2==0 ? 'grey-row' : ''" data-group="{{::count}}"
+                            ng-repeat="price in transition.prices" ng-if="$index > 0" highlight-groups>
+                            <td class="editableComboBox">{{::price.priceMode}}</td>
+                            <td class="editableComboBox">{{::price.priceType}}</td>
+                            <td class="editableArea">{{::price.priceTypeDescription}}</td>
+                            <td class="editableArea">{{::price.priceDescription}}</td>
+                            <td class="editableArea">{{::price.tax}}</td>
+                            <td class="editableComboBox">{{::price.currency}}</td>
+                            <td class="editableArea">{{::price.amount}}</td>
+                        </tr>
+                        <tr ng-repeat-end></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="panel panel-brown">
+                <div class="panel-heading">
+                    Price
+                </div>
+                <div class="panel-body prices-body table-responsive">
+                    <table class="table table-bound">
+                        <thead>
+                        <tr>
+                            <th>Price Mode</th>
+                            <th>Price Type</th>
+                            <th>Price Type Description</th>
+                            <th>Price Description</th>
+                            <th>Tax</th>
+                            <th>Currency</th>
+                            <th>
+                                Amount
+                                <button type="button" class="sort">
+                                    <span class="glyphicon glyphicon-sort"></span>
+                                </button>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-class="$index%2==0 ? 'grey-row' :''"
+                            ng-repeat="price in productData.product.prices" highlight-price>
+                            <td class="editableComboBox">{{::price.priceMode}}</td>
+                            <td class="editableComboBox">{{::price.priceType}}</td>
+                            <td class="editableArea">{{::price.priceTypeDescription}}</td>
+                            <td class="editableArea">{{::price.priceDescription}}</td>
+                            <td class="editableArea">{{::price.tax}}</td>
+                            <td class="editableComboBox">{{::price.currency}}</td>
+                            <td class="editableArea">{{::price.amount}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
